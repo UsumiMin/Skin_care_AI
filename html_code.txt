@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+      position: relative;
+    }
+
+    .square {
+      width: 50%;
+      height: 120vh;
+      background-color: #bbbaba;
+      position: absolute;
+      left: 25%;
+      z-index: 0; 
+    }
+
+    .content {
+      position: relative;
+      z-index: 1; 
+      text-align: center;
+    }
+
+    .camera-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .camera-container {
+      position: relative;
+      width: 300px;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: #121212;
+    }
+
+    .camera-button {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #121212;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    canvas {
+      display: none;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="square"></div>
+
+  <div class="content">
+    <h1>Skin Care AI</h1>
+    <p>Загрузите свое фото и получите анализ на основе искусственного интеллекта</p>
+    <div class="camera-wrapper">
+      <div class="camera-container">
+        <video id="camera" autoplay></video>
+        <button class="camera-button" onclick="takePhoto()">Сделать фото</button>
+        <canvas id="snapshot" width="300" height="225"></canvas>
+      </div>
+    </div>
+    <p>ИЛИ</p>
+    <input type="file" accept="image/*">
+  </div>
+
+  <script>
+    const video = document.getElementById('camera');
+    const canvas = document.getElementById('snapshot');
+    const context = canvas.getContext('2d');
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function(stream) {
+        video.srcObject = stream;
+      })
+      .catch(function(error) {
+        console.log("Ошибка доступа к камере: ", error);
+      });
+
+    function takePhoto() {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
