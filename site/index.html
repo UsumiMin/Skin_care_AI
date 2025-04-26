@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Analysis AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .upload-container {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        #preview {
+            max-width: 100%;
+            margin-top: 15px;
+            display: none;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:disabled {
+            background: #cccccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Анализ кожи с помощью AI</h1>
+    <p>Загрузите фотографию для анализа состояния кожи</p>
+    
+    <div class="upload-container">
+        <input type="file" id="fileInput" accept="image/*">
+        <img id="preview" alt="Предпросмотр">
+    </div>
+    
+    <div style="
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 5px;
+      color: #856404;
+      padding: 15px;
+      margin: 20px 0;
+      font-family: Arial, sans-serif;
+    ">
+    <p style="margin: 0; font-size: 18px;">
+        ⚠️ <strong>Важно!</strong> Информация носит ознакомительный характер.  
+        Рекомендуем обратиться к специалисту.
+    </p>
+    </div>	
+    
+    <button id="analyzeBtn" disabled>Анализировать</button>
+    
+    <div id="result"></div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const resultDiv = document.getElementById('result');
+        
+        // Показ превью изображения
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    preview.src = event.target.result;
+                    preview.style.display = 'block';
+                    analyzeBtn.disabled = false;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Отправка на сервер
+        analyzeBtn.addEventListener('click', async function() {
+            const file = fileInput.files[0];
+            if (!file) return;
+            
+            analyzeBtn.disabled = true;
+            resultDiv.innerHTML = "Идет анализ...";
+            
+            try {
+                const formData = new FormData();
+                formData.append('photo', file);
+                
+                const response = await fetch('http://localhost:8000/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Ошибка сервера: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                displayResult(data);
+            } catch (error) {
+                console.error('Ошибка:', error);
+                resultDiv.innerHTML = `
+                    <p style="color: red">Произошла ошибка:</p>
+                    <p>${error.message}</p>
+                    <p>Проверьте:</p>
+                    <ol>
+                        <li>Сервер запущен (команда: python server.py)</li>
+                        <li>Файл skin_mod.txt существует</li>
+                        <li>API ключ Gemini действителен</li>
+                    </ol>
+                `;
+            } finally {
+                analyzeBtn.disabled = false;
+            }
+        });
+        
+        function displayResult(data) {
+            let html = '<h3>Результаты анализа:</h3>';
+            
+            if (data.error) {
+                html += `<p style="color: red">Ошибка: ${data.error}</p>`;
+            } else if (typeof data === 'object') {
+                for (i in data['skin']) {
+                    for (const key in data['skin'][i]) {
+                        html += `<p><strong>${key}:</strong> ${JSON.stringify(data['skin'][i][key])}</p>`;
+                    }
+            }
+            } else {
+                html += `<p>${data}</p>`;
+            }
+            
+            resultDiv.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
