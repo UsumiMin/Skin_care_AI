@@ -3,17 +3,10 @@ import cgi
 import json
 import google.generativeai as genai
 import asyncio
-from io import BytesIO
 import os
 
-genai.configure(api_key="AIzaSyBd77njV451Td_k5ncchyWiqtsoMXMsSwI")
 
-try:
-    test_model = genai.GenerativeModel('gemini-1.5-flash')
-    test_response = test_model.generate_content("Напиши 'Тест успешен'.")
-    print("Тест Gemini:", test_response.text)
-except Exception as e:
-    print("Ошибка Gemini API:", str(e))
+genai.configure(api_key="AIzaSyBd77njV451Td_k5ncchyWiqtsoMXMsSwI")
 
 class AiModel:
     __generation_config__ = {
@@ -41,7 +34,7 @@ class VisionModel(AiModel):
             
             uploaded_file = genai.upload_file("temp_upload.jpg")
             response = await self.model.generate_content_async(
-                [uploaded_file, "Проанализируй кожу на этом фото и дай рекомендации в виде обычного текста, без использования JSON"]
+                [uploaded_file]
             )
             os.remove("temp_upload.jpg")
             return response.text  # Возвращаем обычный текст, а не JSON
@@ -59,9 +52,10 @@ class ServerHandler(BaseHTTPRequestHandler):
         self._set_headers()
     
     def do_GET(self):
+        self._loop = asyncio.new_event_loop()
         if self.path == "/":
             self._set_headers(content_type="text/html")
-            with open('D:/new/site/index.html', 'rb') as f:
+            with open('C:/Users/User/Documents/skin/site/index.html', 'rb') as f:
                 self.wfile.write(f.read())
         else:
             self._set_headers(404)
@@ -90,15 +84,13 @@ class ServerHandler(BaseHTTPRequestHandler):
                 image_data = file_item.file.read()
                 print("Received image size:", len(image_data), "bytes")
                 
-                loop = asyncio.new_event_loop()
+                loop = asyncio.get_event_loop()
                 asyncio.set_event_loop(loop)
-                try:
-                    model = VisionModel()
-                    result = loop.run_until_complete(model.analyze_skin(image_data))
-                    self._set_headers()
-                    self.wfile.write(result.encode())
-                finally:
-                    loop.close()
+                model = VisionModel()
+                result = loop.run_until_complete(model.analyze_skin(image_data))
+                self._set_headers()
+                self.wfile.write(result.encode())
+                
                 
             except Exception as e:
                 print("Server error:", str(e))
