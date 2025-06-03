@@ -16,12 +16,12 @@ ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Настройка прокси для всех запросов через requests
-os.environ["HTTP_PROXY"] = 'http://Wzph9KtNFa:CCdLpKEpdC@45.150.35.92:38902'
-os.environ["HTTPS_PROXY"] = 'http://Wzph9KtNFa:CCdLpKEpdC@45.150.35.92:38902'
+os.environ["HTTP_PROXY"] = 'http://username:password@IP:port'
+os.environ["HTTPS_PROXY"] = 'http://username:password@IP:port'
 
 # Инициализация Gemini с кастомной сессией
 genai.configure(
-    api_key=os.getenv("GEMINI_API_KEY", "AIzaSyBd77njV451Td_k5ncchyWiqtsoMXMsSwI"),
+    api_key=os.getenv("GEMINI_API_KEY", "API-Key"),
     transport="rest"
 )
 
