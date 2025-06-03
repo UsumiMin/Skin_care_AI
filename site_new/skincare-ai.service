@@ -1,0 +1,15 @@
+[Unit]
+Description=Skincare AI Backend
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/var/www/skincareai.ru
+Environment="PATH=/var/www/skincareai.ru/venv/bin"
+ExecStart=/var/www/skincareai.ru/venv/bin/gunicorn -w 4 -b 0.0.0.0:5000 gemini:app
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
