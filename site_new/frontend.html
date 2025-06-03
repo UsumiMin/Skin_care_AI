@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Skin Care AI</title>
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=6B0fG-PTE6W6aTL0I1N03mQU0_AKGYnssPw2RO5SaV7MeXnsfj_C04UJWKvSFixU4IeGgTo6FnWFTE5uX6BbYo3UGh70QGgooUALoygn6XnZC9n2HhSK5WUjpkaDPPUCLXN7USYXOqZ_Cm5f39ZQm86q5gbEHgZl1nyjm_ytCbO4FWLMBpYb1iCALMf-_xM0AEDrkOKauWPczsTd-HaXLA" charset="UTF-8"></script><style>
+  <style>
     *, *::before, *::after {
       box-sizing: border-box;
-      max-width: 100vw;
+      max-width: 100vw; 
     }
 
     html, body {
@@ -18,18 +18,24 @@
     }
 
     body {
+      overflow-x: hidden;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      margin: 0;
       font-family: 'Arial', sans-serif;
       background: radial-gradient(circle at center, 
         rgba(255, 183, 197, 0.6) 0%, 
         rgba(255, 220, 200, 0.5) 40%, 
         rgba(255, 255, 255, 0.4) 100%);
       text-align: center;
-      align-items: center;
       color: #333;
       min-height: 100vh;
     }
 
     header {
+      max-width: 100vw; 
+      overflow-x: hidden; 
       position: fixed;
       top: -80px;
       left: 0;
@@ -49,8 +55,6 @@
       color: #e6007e;
       z-index: 999;
       transition: top 0.4s ease;
-      max-width: 100vw;
-      overflow-x: hidden;
     }
 
     header.show {
@@ -58,18 +62,16 @@
     }
 
     .container {
+      overflow-x: hidden;
       padding: 2rem 2rem;
       max-width: 600px;
       margin: auto;
-      overflow-x: hidden;
-      width: 100%;
     }
 
     .highlight {
       color: #e6007e;
       font-weight: bold;
       font-size: 2.5rem;
-      word-wrap: break-word;
     }
 
     .subtitle {
@@ -77,18 +79,16 @@
       font-size: 1.1rem;
       margin-top: 0.5rem;
       line-height: 1.5;
-      word-wrap: break-word;
     }
 
     .upload-box {
+      overflow-x: hidden;
       border: 2px dashed #ff69b4;
       border-radius: 1.5rem;
       padding: 2rem;
       margin: 2rem 0;
       background: #fff0f5;
       box-shadow: 0 0 10px rgba(255, 105, 180, 0.2);
-      max-width: 100%;
-      overflow-x: hidden;
     }
 
     .upload-label {
@@ -103,8 +103,6 @@
     .upload-label img {
       width: 60px;
       margin-bottom: 0.5rem;
-      max-width: 100%;
-      height: auto;
     }
 
     #preview {
@@ -129,16 +127,16 @@
       overflow-x: hidden;
       max-width: 250px;
       max-height: 120px;
-
     }
 
     .warning-title {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: bold;
       color: #c00000;
-   }
-
-    .warning-text {
+      margin-bottom: 0.5rem;
+    }
+	
+	.warning-text {
       font-size: 1rem;
       color: #3a0012;
       margin-bottom: 0.5rem;
@@ -146,6 +144,8 @@
     }
 
     button {
+      overflow-x: hidden; 
+      white-space: nowrap; 
       margin-top: 1.5rem;
       background: #e6007e;
       color: white;
@@ -156,9 +156,6 @@
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(230, 0, 126, 0.3);
       transition: all 0.25s ease-in-out;
-      max-width: 100%;
-      overflow-x: hidden;
-      white-space: nowrap;
     }
 
     button:hover {
@@ -184,6 +181,8 @@
     }
 
     #result {
+      overflow-x: hidden; 
+      word-wrap: break-word; 
       background: #fff;
       margin-top: 2rem;
       padding: 1.5rem;
@@ -195,26 +194,22 @@
       display: none;
       opacity: 0;
       transition: opacity 0.6s ease;
-      max-width: 100%;
-      overflow-x: hidden;
-      word-wrap: break-word;
     }
 
     .loader-wrapper {
+      overflow-x: hidden;
+      max-width: 100vw; 
       display: none;
       justify-content: center;
       margin-top: 2rem;
-      overflow-x: hidden;
-      max-width: 100vw;
-      width: 100%;
     }
 
     .loader {
+      overflow-x: hidden;
       filter: url('#goo');
       position: relative;
       width: 200px;
       height: 100px;
-      overflow-x: hidden;
     }
 
     .loader::after {
@@ -275,34 +270,12 @@
     svg {
       position: absolute;
       z-index: -100;
-      pointer-events: none;
       width: 100vw;
-      height: 100vh;
+      max-width: 100vw;
       overflow: hidden;
       left: 0;
       top: 0;
-      max-width: 100vw;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        padding: 1rem;
-        max-width: 100%;
-      }
-
-      .highlight {
-        font-size: 2rem;
-      }
-
-      .subtitle {
-        font-size: 1rem;
-      }
-
-      button {
-        width: 50%;
-        font-size: 1rem;
-        padding: 10px 15px;
-      }
+      pointer-events: none;
     }
   </style>
 </head>
@@ -311,11 +284,11 @@
 
   <div class="container">
     <h1><span class="highlight">SKIN CARE AI</span></h1>
-    <p class="subtitle">Загрузите свою фотографию<br>и получите анализ на основе<br>искусственного интеллекта</p>
+    <p class="subtitle">Загрузите свою фотографию и получите<br>анализ на основе искусственного интеллекта</p>
 
     <div class="upload-box">
       <label for="fileInput" class="upload-label">
-        <img src="images/camera.png" alt="camera" />
+        <img src="https://raw.githubusercontent.com/UsumiMin/Skin_care_AI/refs/heads/main/site_new/images/camera.png" alt="camera" />
         Загрузить фото
         <input type="file" id="fileInput" accept="image/*" hidden />
       </label>
@@ -394,29 +367,29 @@
 
       try {
         const formData = new FormData();
-        formData.append('photo', file);
+        formData.append('file', file);
 
-        const response = await fetch('https://7798-34-57-149-87.ngrok-free.app/', {
+        const response = await fetch('https://skincareai.ru/analyze', {
           method: 'POST',
           body: formData,
           headers: {
-            'ngrok-skip-browser-warning': 'true',
+            'Accept': 'application/json'
           },
+          credentials: 'same-origin'
         });
 
         if (!response.ok) {
-          throw new Error(`Ошибка сервера: ${response.status}`);
+          throw new Error(`Ошибка сервера: В сайте ${response.status}`);
         }
 
         const data = await response.json();
         displayResult(data);
       } catch (error) {
+        // Логирование в консоль (для разработки)
         console.error('API Error:', error); 
 
-        await fetch('/api/log-error', {
-          method: 'POST',
-          body: JSON.stringify({ error: error.message })
-        });
+      // Отправка ошибки на сервер (если нужно)
+        
         resultDiv.innerHTML = `
           <p style="color: red">Произошла ошибка:</p>
           <p>${error.message}</p>`
@@ -426,25 +399,23 @@
     });
 
     function displayResult(data) {
+      resultDiv.style.display = "block";
+      resultDiv.style.opacity = "1";
+      loaderWrapper.style.display = "none";
+
       let html = '<h3>Результаты анализа:</h3>';
+
       if (data.error) {
         html += `<p style="color: red">Ошибка: ${data.error}</p>`;
-      } else if (typeof data === 'object') {
-        for (i in data['skin']) {
-          for (const key in data['skin'][i]) {
-            html += `<p><strong>${key}:</strong> ${JSON.stringify(data['skin'][i][key])}</p>`;
-          }
-        }
       } else {
-        html += `<p>${data}</p>`;
-      }
+        html += `
+          <p><strong>Тип кожи:</strong> ${data.skin_type}</p>
+          <p><strong>Проблемы:</strong> ${data.problems}</p>
+          <p><strong>Рекомендации:</strong> ${data.recommendations}</p>
+        `;
+        }
       resultDiv.innerHTML = html;
-      resultDiv.style.display = 'block';
-      setTimeout(() => {
-        resultDiv.style.opacity = '1';
-      }, 10);
-      loaderWrapper.style.display = 'none';
-    }
-  </script>
+    } 
+</script>
 </body>
 </html>
